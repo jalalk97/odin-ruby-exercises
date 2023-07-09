@@ -7,3 +7,5 @@ This is a solutions repository for the [Ruby course](https://www.theodinproject.
    - [see problem statement](https://www.theodinproject.com/lessons/ruby-caesar-cipher)
  * [Project: Sub Strings](https://github.com/jalalk97/odin-ruby-exercises/blob/main/sub-strings/substrings.rb)
    - [see problem statement](https://www.theodinproject.com/lessons/ruby-sub-strings)
+ * [Stock Picker](https://github.com/jalalk97/odin-ruby-exercises/blob/main/stock-picker/stock-picker.rb)
+   - [see problem statement](https://www.theodinproject.com/lessons/ruby-stock-picker)
