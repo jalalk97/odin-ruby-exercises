@@ -9,6 +9,6 @@ def encrypt_char(char, shift)
   ((char.ord - offset + shift) % ALPHABET_LENGTH + offset).chr
 end
 
-def encrypt(string, shift)
+def caesar_cipher(string, shift)
   string.chars.map { |char| encrypt_char(char, shift) } .join('')
 end
