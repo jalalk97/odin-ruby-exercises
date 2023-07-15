@@ -11,3 +11,5 @@ This is a solutions repository for the [Ruby course](https://www.theodinproject.
    - [see problem statement](https://www.theodinproject.com/lessons/ruby-stock-picker)
  * [Project: Bubble Sort](https://github.com/jalalk97/odin-ruby-exercises/blob/main/bubble-sort/bubble_sort.rb)
    - [see problem statement](https://www.theodinproject.com/lessons/ruby-bubble-sort)
+ * [Project: Recursion](https://github.com/jalalk97/odin-ruby-exercises/tree/main/recursion/lib)
+   - [see problem statement](https://www.theodinproject.com/lessons/ruby-recursion)
