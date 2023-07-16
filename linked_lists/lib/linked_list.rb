@@ -47,6 +47,11 @@ class LinkedList
   def size
     count
   end
+
+  def to_s
+    "nil <- #{each.to_a.join(" <-> ")} -> nil"
+  end
+
   # This class represents a node in the list
   class Node
     attr_accessor :value, :next_node, :prev_node
@@ -55,6 +60,10 @@ class LinkedList
       @value = value
       @next_node = next_node
       @prev_node = prev_node
+    end
+
+    def to_s
+      value.nil? ? "nil" : "( #{value} )"
     end
   end
 end
