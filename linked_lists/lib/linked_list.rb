@@ -48,6 +48,10 @@ class LinkedList
     count
   end
 
+  def head
+    head_sentinel.next_node.equal?(tail_sentinel) ? nil : head_sentinel.next_node
+  end
+
   def to_s
     "nil <- #{each.to_a.join(" <-> ")} -> nil"
   end
