@@ -3,9 +3,9 @@
 require "linked_list"
 
 RSpec.describe LinkedList do
-  describe "append" do
-    let(:list) { LinkedList.new }
+  let(:list) { LinkedList.new }
 
+  describe "#append" do
     it "when the list is empty" do
       value = 1
       list.append(value)
@@ -23,9 +23,7 @@ RSpec.describe LinkedList do
     end
   end
 
-  describe "prepend" do
-    let(:list) { LinkedList.new }
-
+  describe "#prepend" do
     it "when the list is empty" do
       value = 1
       list.prepend(value)
