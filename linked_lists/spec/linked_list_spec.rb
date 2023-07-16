@@ -41,4 +41,23 @@ RSpec.describe LinkedList do
       expect(list.tail_sentinel.prev_node.value).to eql(3)
     end
   end
+
+  describe "#size" do
+    it "when the list is empty" do
+      expect(list.size).to eql(0)
+    end
+
+    it "when the list contains one element" do
+      list.append(1)
+
+      expect(list.size).to eql(1)
+    end
+
+    it "when the list contains multiple elements" do
+      size = 10
+      size.times { |i| list.append(i) }
+
+      expect(list.size).to eql(size)
+    end
+  end
 end

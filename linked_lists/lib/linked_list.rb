@@ -2,6 +2,8 @@
 
 # This class represents a doubly linked list
 class LinkedList
+  include Enumerable
+
   attr_reader :head_sentinel, :tail_sentinel
 
   def initialize
@@ -29,6 +31,21 @@ class LinkedList
     new_node.next_node =  next_node
     new_node.prev_node = head_sentinel
     head_sentinel.next_node = new_node
+  end
+
+  def each
+    return to_enum unless block_given?
+
+    curr_node = head_sentinel.next_node
+    until curr_node.equal?(tail_sentinel)
+      yield curr_node
+      curr_node = curr_node.next_node
+    end
+    self
+  end
+
+  def size
+    count
   end
   # This class represents a node in the list
   class Node
