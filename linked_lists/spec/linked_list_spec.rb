@@ -79,4 +79,23 @@ RSpec.describe LinkedList do
       expect(list.head.value).to eql(1)
     end
   end
+
+  describe "#tail" do
+    it "when the list is empty" do
+      expect(list.tail).to be_nil
+    end
+
+    it "when the list contains one element" do
+      list.append(1)
+
+      expect(list.tail.value).to eql(1)
+    end
+
+    it "when the list contains multiple elements" do
+      list.append(1)
+      list.append(2)
+
+      expect(list.tail.value).to eql(2)
+    end
+  end
 end

@@ -52,6 +52,10 @@ class LinkedList
     head_sentinel.next_node.equal?(tail_sentinel) ? nil : head_sentinel.next_node
   end
 
+  def tail
+    tail_sentinel.prev_node.equal?(head_sentinel) ? nil : tail_sentinel.prev_node
+  end
+
   def to_s
     "nil <- #{each.to_a.join(" <-> ")} -> nil"
   end
