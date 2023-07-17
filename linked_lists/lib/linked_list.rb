@@ -56,6 +56,10 @@ class LinkedList
     tail_sentinel.prev_node.equal?(head_sentinel) ? nil : tail_sentinel.prev_node
   end
 
+  def at(index)
+    find.with_index { |_, i| i == index }&.value
+  end
+
   def to_s
     "nil <- #{each.to_a.join(" <-> ")} -> nil"
   end

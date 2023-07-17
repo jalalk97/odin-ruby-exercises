@@ -98,4 +98,37 @@ RSpec.describe LinkedList do
       expect(list.tail.value).to eql(2)
     end
   end
+
+  describe "#at" do
+    before(:all) do
+      @list = LinkedList.new
+      @size = 10
+      10.times { |i| @list.append(i + 1) }
+    end
+
+    it "first index" do
+      index = 0
+      expect(@list.at(index)).to eql(1)
+    end
+
+    it "last index" do
+      index = @size - 1
+      expect(@list.at(index)).to eql(10)
+    end
+
+    it "index between first and lasst" do
+      index = 4
+      expect(@list.at(index)).to eql(5)
+    end
+
+    it "negative index returns nil" do
+      index = -1
+      expect(@list.at(index)).to be_nil
+    end
+
+    it "positive out of bounds index returns nil" do
+      index = 10
+      expect(@list.at(index)).to be_nil
+    end
+  end
 end
