@@ -131,4 +131,35 @@ RSpec.describe LinkedList do
       expect(@list.at(index)).to be_nil
     end
   end
+
+  describe "#pop" do
+    context "when the list is empty" do
+      it "returns nil" do
+        expect(list.pop).to be_nil
+      end
+
+      it "size is zero" do
+        list.pop
+        expect(list.size).to eql(0)
+      end
+    end
+
+    context "when the list is not empty" do
+      before(:each) do
+        list.append(1)
+        list.append(2)
+      end
+
+      it "returns returns the last element" do
+        expect(list.pop).to eql(2)
+      end
+
+      it "the size is reduced by one" do
+        old_size = list.size
+        list.pop
+
+        expect(list.size).to eql(old_size - 1)
+      end
+    end
+  end
 end

@@ -60,6 +60,15 @@ class LinkedList
     find.with_index { |_, i| i == index }&.value
   end
 
+  def pop
+    return nil unless size.positive?
+
+    last_node = tail
+    last_node.prev_node.next_node = tail_sentinel
+    tail_sentinel.prev_node = last_node.prev_node
+    last_node.value
+  end
+
   def to_s
     "nil <- #{each.to_a.join(" <-> ")} -> nil"
   end
