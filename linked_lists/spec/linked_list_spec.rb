@@ -196,4 +196,28 @@ RSpec.describe LinkedList do
       expect(list.find_index_of(4)).to be_nil
     end
   end
+
+  describe "#insert_at" do
+    describe "when index is in bounds" do
+      before(:each) do
+        10.times { |i| list.append(i + 1) }
+      end
+
+      it "inserts at the right position" do
+        value = "a"
+        index = 2
+        list.insert_at("a", 2)
+
+        expect(list.at(index)).to eql(value)
+        expect(list.at(index - 1)).to eql(2)
+        expect(list.at(index + 1)).to eql(3)
+      end
+
+      it "increases the size of the list by one" do
+        list.insert_at("a", 2)
+
+        expect(list.size).to eql(11)
+      end
+    end
+  end
 end

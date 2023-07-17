@@ -57,7 +57,7 @@ class LinkedList
   end
 
   def at(index)
-    find.with_index { |_, i| i == index }&.value
+    node_at(index)&.value
   end
 
   def pop
@@ -77,8 +77,32 @@ class LinkedList
     find_index { |element| element.value == value }
   end
 
+  def insert_at(value, index)
+    case value
+    when 0 then prepend(value)
+    when size then append(value)
+    else
+      node = node_at(index)
+      return value unless node
+
+      new_node = Node.new(value)
+
+      new_node.prev_node = node.prev_node
+      node.prev_node.next_node = new_node
+      new_node.next_node = node
+      node.prev_node = new_node
+    end
+    value
+  end
+
   def to_s
     "nil <- #{each.to_a.join(" <-> ")} -> nil"
+  end
+
+  private
+
+  def node_at(index)
+    find.with_index { |_, i| i == index }
   end
 
   # This class represents a node in the list
