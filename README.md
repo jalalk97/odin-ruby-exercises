@@ -13,3 +13,5 @@ This is a solutions repository for the [Ruby course](https://www.theodinproject.
    - [see problem statement](https://www.theodinproject.com/lessons/ruby-bubble-sort)
  * [Project: Recursion](https://github.com/jalalk97/odin-ruby-exercises/tree/main/recursion/lib)
    - [see problem statement](https://www.theodinproject.com/lessons/ruby-recursion)
+ * [Project: Linked Lists](https://github.com/jalalk97/odin-ruby-exercises/blob/main/linked_lists/lib/linked_list.rb)
+   - [see problem statement](https://www.theodinproject.com/lessons/ruby-linked-lists)
