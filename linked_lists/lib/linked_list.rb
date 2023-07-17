@@ -69,6 +69,10 @@ class LinkedList
     last_node.value
   end
 
+  def contains?(value)
+    !!(find { |node| node.value == value })
+  end
+
   def to_s
     "nil <- #{each.to_a.join(" <-> ")} -> nil"
   end

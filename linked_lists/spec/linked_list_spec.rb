@@ -162,4 +162,21 @@ RSpec.describe LinkedList do
       end
     end
   end
+
+  describe "#contains" do
+    before(:each) do
+      list.append(1)
+      list.append(2)
+    end
+
+    it "when the value is present, returns true" do
+      expect(list.contains?(1)).to be true
+      expect(list.contains?(2)).to be true
+    end
+
+    it "when the value is absent, returns false" do
+      expect(list.contains?(3)).to be false
+      expect(list.contains?(4)).to be false
+    end
+  end
 end
