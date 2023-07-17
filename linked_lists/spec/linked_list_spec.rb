@@ -179,4 +179,21 @@ RSpec.describe LinkedList do
       expect(list.contains?(4)).to be false
     end
   end
+
+  describe "#find_index_of" do
+    before(:each) do
+      list.append(1)
+      list.append(2)
+    end
+
+    it "when the value is present, returns its index" do
+      expect(list.find_index_of(1)).to eql(0)
+      expect(list.find_index_of(2)).to eql(1)
+    end
+
+    it "when the value is absent, returns nil" do
+      expect(list.find_index_of(3)).to be_nil
+      expect(list.find_index_of(4)).to be_nil
+    end
+  end
 end

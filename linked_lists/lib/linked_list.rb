@@ -73,6 +73,10 @@ class LinkedList
     !!(find { |node| node.value == value })
   end
 
+  def find_index_of(value)
+    find_index { |element| element.value == value }
+  end
+
   def to_s
     "nil <- #{each.to_a.join(" <-> ")} -> nil"
   end
