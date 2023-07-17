@@ -95,6 +95,15 @@ class LinkedList
     value
   end
 
+  def remove_at(index)
+    node = node_at(index)
+    return nil if node.nil?
+
+    node.prev_node.next_node = node.next_node
+    node.next_node.prev_node = node.prev_node
+    node.value
+  end
+
   def to_s
     "nil <- #{each.to_a.join(" <-> ")} -> nil"
   end

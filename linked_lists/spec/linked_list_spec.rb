@@ -220,4 +220,55 @@ RSpec.describe LinkedList do
       end
     end
   end
+
+  describe "#remove_at" do
+    before(:each) do
+      10.times { |i| list.append(i + 1) }
+    end
+
+    describe "when index is in bounds" do
+      it "inserts at the right position" do
+        index = 2
+        list.remove_at(2)
+
+        expect(list.at(index)).to eql(4)
+        expect(list.at(index - 1)).to eql(2)
+        expect(list.at(index + 1)).to eql(5)
+      end
+
+      it "increases the size of the list by one" do
+        list.remove_at(2)
+
+        expect(list.size).to eql(9)
+      end
+
+      it "returns the removed object" do
+        expect(list.remove_at(2)).to eql(3)
+      end
+    end
+
+    describe "when index is negative" do
+      it "doesn't change the size of the list" do
+        list.remove_at(-1)
+
+        expect(list.size).to eql(10)
+      end
+
+      it "returns nil" do
+        expect(list.remove_at(-1)).to be_nil
+      end
+    end
+
+    describe "when index is positive but out of bounds" do
+      it "doesn't change the size of the list" do
+        list.remove_at(10)
+
+        expect(list.size).to eql(10)
+      end
+
+      it "returns nil" do
+        expect(list.remove_at(10)).to be_nil
+      end
+    end
+  end
 end
