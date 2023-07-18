@@ -313,4 +313,44 @@ RSpec.describe Tree do
       expect(tree.depth(node)).to eql(2)
     end
   end
+
+  describe "#balanced?" do
+    let(:tree) { Tree.new((1..9).to_a) }
+
+    it "the whole tree is balanced" do
+      expect(tree.balanced?).to be true
+    end
+
+    it "the root node is balanced but one child is not" do
+      tree.remove(1)
+
+      expect(tree.balanced?).to be false
+    end
+
+    it "the root node is not balanced" do
+      tree.remove(2).remove(3).remove(4)
+    end
+  end
+
+  describe "#rebalance" do
+    it "linked list" do
+      tree = Tree.new([1])
+      tree.root.right = Tree::Node.new(2)
+      tree.root.right.right = Tree::Node.new(3)
+      tree.root.right.right.right = Tree::Node.new(4)
+      tree.root.right.right.right.right = Tree::Node.new(5)
+      tree.root.right.right.right.right.right = Tree::Node.new(6)
+      tree.root.right.right.right.right.right.right = Tree::Node.new(7)
+
+      tree.rebalance
+
+      expect(tree.root.data).to eql(4)
+      expect(tree.root.left.data).to eql(2)
+      expect(tree.root.left.left.data).to eql(1)
+      expect(tree.root.left.right.data).to eql(3)
+      expect(tree.root.right.data).to eql(6)
+      expect(tree.root.right.left.data).to eql(5)
+      expect(tree.root.right.right.data).to eql(7)
+    end
+  end
 end

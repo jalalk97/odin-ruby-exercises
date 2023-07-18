@@ -5,10 +5,10 @@ class Tree
   attr_reader :root
 
   def initialize(array)
-    @root = build_tree(array.uniq.sort)
+    @root = Tree.build_tree(array.uniq.sort)
   end
 
-  def build_tree(array)
+  def self.build_tree(array)
     return nil if array.empty?
 
     mid = (array.length - 1) / 2
@@ -55,6 +55,14 @@ class Tree
 
   def depth(to)
     root.depth(to)
+  end
+
+  def balanced?
+    root.balanced?
+  end
+
+  def rebalance
+    @root = Tree.build_tree(root.inorder)
   end
 
   # This class represents a node in a binary search tree. Each node has most two possibly nil children of type Node
@@ -179,7 +187,7 @@ class Tree
     end
 
     def height
-      if left.nil? && right.nil?
+      if leaf?
         0
       elsif left.nil?
         1 + right.height
@@ -195,6 +203,18 @@ class Tree
         current_depth
       else
         left&.depth(to, current_depth + 1) || right&.depth(to, current_depth + 1)
+      end
+    end
+
+    def balanced?
+      if leaf?
+        true
+      elsif left.nil?
+        right.leaf?
+      elsif right.nil?
+        left.leaf?
+      else
+        (left.height - right.height).abs <= 1 && left.balanced? && right.balanced?
       end
     end
 
