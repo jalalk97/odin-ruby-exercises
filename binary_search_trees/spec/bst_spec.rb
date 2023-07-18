@@ -269,4 +269,48 @@ RSpec.describe Tree do
       expect(tree.postorder).to eql([1, 4, 3, 2, 6, 9, 8, 7, 5])
     end
   end
+
+  describe "#height" do
+    let(:tree) { Tree.new((1..9).to_a) }
+
+    it "root" do
+      node = tree.root
+
+      expect(tree.height(node)).to eql(3)
+    end
+
+    it "leaf node" do
+      node = tree.root.left.right.right
+
+      expect(tree.height(node)).to eql(0)
+    end
+
+    it "internal node" do
+      node = tree.root.right.right
+
+      expect(tree.height(node)).to eql(1)
+    end
+  end
+
+  describe "#depth" do
+    let(:tree) { Tree.new((1..9).to_a) }
+
+    it "root" do
+      node = tree.root
+
+      expect(tree.depth(node)).to eql(0)
+    end
+
+    it "leaf node" do
+      node = tree.root.left.right.right
+
+      expect(tree.depth(node)).to eql(3)
+    end
+
+    it "internal node" do
+      node = tree.root.right.right
+
+      expect(tree.depth(node)).to eql(2)
+    end
+  end
 end

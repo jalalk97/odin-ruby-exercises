@@ -49,6 +49,14 @@ class Tree
     root.postorder
   end
 
+  def height(node = root)
+    node.height
+  end
+
+  def depth(to)
+    root.depth(to)
+  end
+
   # This class represents a node in a binary search tree. Each node has most two possibly nil children of type Node
   # represented by the instance variables left and right.
   class Node
@@ -164,6 +172,30 @@ class Tree
       yield self if block_given?
 
       values
+    end
+
+    def leaf?
+      left.nil? && right.nil?
+    end
+
+    def height
+      if left.nil? && right.nil?
+        0
+      elsif left.nil?
+        1 + right.height
+      elsif right.nil?
+        1 + left.height
+      else
+        1 + [right.height, left.height].max
+      end
+    end
+
+    def depth(to, current_depth = 0)
+      if equal?(to)
+        current_depth
+      else
+        left&.depth(to, current_depth + 1) || right&.depth(to, current_depth + 1)
+      end
     end
 
     private
