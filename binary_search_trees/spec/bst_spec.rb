@@ -221,4 +221,20 @@ RSpec.describe Tree do
       expect(tree.root.right.right.data).to eql(97)
     end
   end
+
+  describe "#find" do
+    let(:tree) { Tree.new((1..9).to_a) }
+
+    it "a leaf node" do
+      expect(tree.find(4).data).to eql(4)
+    end
+
+    it "an internal node" do
+      expect(tree.find(7).data).to eql(7)
+    end
+
+    it "returns nil the when the value is absent" do
+      expect(tree.find(10)).to be_nil
+    end
+  end
 end

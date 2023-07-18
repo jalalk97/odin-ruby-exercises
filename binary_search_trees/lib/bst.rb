@@ -29,6 +29,10 @@ class Tree
     root.remove(value)
   end
 
+  def find(value)
+    root.find(value)
+  end
+
   # This class represents a node in a binary search tree. Each node has most two possibly nil children of type Node
   # represented by the instance variables left and right.
   class Node
@@ -91,6 +95,16 @@ class Tree
         end
       end
       self
+    end
+
+    def find(value)
+      if value < data
+        left&.find(value)
+      elsif value > data
+        right&.find(value)
+      else
+        self
+      end
     end
 
     private
