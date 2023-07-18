@@ -82,4 +82,61 @@ RSpec.describe Tree do
       end
     end
   end
+
+  describe "#insert" do
+    let(:tree) { Tree.new([1, 2, 4, 5]) }
+    context "when the value is not already present in the tree" do
+      it "inserts the value smaller than the minimum at the right place" do
+        tree.insert(0)
+
+        expect(tree.root.data).to eql(2)
+        expect(tree.root.left.data).to eql(1)
+        expect(tree.root.right.data).to eql(4)
+        expect(tree.root.right.right.data).to eql(5)
+
+        expect(tree.root.left.left.data).to eql(0)
+      end
+
+      it "inserts the value greater than the maximum at the right place" do
+        tree.insert(6)
+
+        expect(tree.root.data).to eql(2)
+        expect(tree.root.left.data).to eql(1)
+        expect(tree.root.right.data).to eql(4)
+        expect(tree.root.right.right.data).to eql(5)
+
+        expect(tree.root.right.right.right.data).to eql(6)
+      end
+
+      it "inserts the value between the minimum and the maximum at the right place" do
+        tree.insert(3)
+
+        expect(tree.root.data).to eql(2)
+        expect(tree.root.left.data).to eql(1)
+        expect(tree.root.right.data).to eql(4)
+        expect(tree.root.right.right.data).to eql(5)
+
+        expect(tree.root.right.left.data).to eql(3)
+      end
+
+      it "returns the root of the tree" do
+        expect(tree.insert(0)).to be tree.root
+      end
+    end
+
+    context "when the value is already present in the tree" do
+      it "leaves the tree unchanged" do
+        tree.insert(2)
+
+        expect(tree.root.data).to eql(2)
+        expect(tree.root.left.data).to eql(1)
+        expect(tree.root.right.data).to eql(4)
+        expect(tree.root.right.right.data).to eql(5)
+      end
+
+      it "returns the root of the tree" do
+        expect(tree.insert(2)).to be tree.root
+      end
+    end
+  end
 end

@@ -21,6 +21,10 @@ class Tree
     pretty_print(node.left, "#{prefix}#{is_left ? "    " : "│   "}", is_left: true) if node.left
   end
 
+  def insert(value)
+    root.insert(value)
+  end
+
   # This class represents a node in a binary search tree. Each node has most two possibly nil children of type Node
   # represented by the instance variables left and right.
   class Node
@@ -35,6 +39,15 @@ class Tree
 
     def <=>(other)
       data <=> other.data
+    end
+
+    def insert(value)
+      if value < data
+        left&.insert(value) || self.left = Node.new(value)
+      elsif value > data
+        right&.insert(value) || self.right = Node.new(value)
+      end
+      self
     end
   end
 end
