@@ -139,4 +139,86 @@ RSpec.describe Tree do
       end
     end
   end
+
+  describe "#remove" do
+    it "a leaf node" do
+      tree = Tree.new([50])
+      tree.root.left = Tree::Node.new(30)
+      tree.root.left.left = Tree::Node.new(20)
+      tree.root.left.right = Tree::Node.new(40)
+      tree.root.right = Tree::Node.new(70)
+      tree.root.right.left = Tree::Node.new(60)
+      tree.root.right.right = Tree::Node.new(80)
+
+      tree.remove(20)
+
+      expect(tree.root.data).to eql(50)
+      expect(tree.root.left.data).to eql(30)
+      expect(tree.root.right.data).to eql(70)
+      expect(tree.root.left.left).to be_nil
+      expect(tree.root.left.right.data).to eql(40)
+      expect(tree.root.right.left.data).to eql(60)
+      expect(tree.root.right.right.data).to eql(80)
+    end
+
+    it "a node with a single child" do
+      tree = Tree.new([44])
+      tree.root.left = Tree::Node.new(17)
+      tree.root.left.right = Tree::Node.new(32)
+      tree.root.left.right.left = Tree::Node.new(28)
+      tree.root.left.right.left.right = Tree::Node.new(29)
+      tree.root.right = Tree::Node.new(88)
+      tree.root.right.left = Tree::Node.new(65)
+      tree.root.right.left.left = Tree::Node.new(54)
+      tree.root.right.left.right = Tree::Node.new(82)
+      tree.root.right.left.right.left = Tree::Node.new(76)
+      tree.root.right.left.right.left.right = Tree::Node.new(80)
+      tree.root.right.left.right.left.right.left = Tree::Node.new(78)
+      tree.root.right.right = Tree::Node.new(97)
+
+      tree.remove(32)
+
+      expect(tree.root.data).to eql(44)
+      expect(tree.root.left.data).to eql(17)
+      expect(tree.root.left.right.data).to eql(28)
+      expect(tree.root.left.right.right.data).to eql(29)
+      expect(tree.root.right.data).to eql(88)
+      expect(tree.root.right.left.data).to eql(65)
+      expect(tree.root.right.left.left.data).to eql(54)
+      expect(tree.root.right.left.right.data).to eql(82)
+      expect(tree.root.right.left.right.left.data).to eql(76)
+      expect(tree.root.right.left.right.left.right.data).to eql(80)
+      expect(tree.root.right.left.right.left.right.left.data).to eql(78)
+      expect(tree.root.right.right.data).to eql(97)
+    end
+
+    it "a node with both children" do
+      tree = Tree.new([44])
+      tree.root.left = Tree::Node.new(17)
+      tree.root.left.right = Tree::Node.new(28)
+      tree.root.left.right.right = Tree::Node.new(29)
+      tree.root.right = Tree::Node.new(88)
+      tree.root.right.left = Tree::Node.new(65)
+      tree.root.right.left.left = Tree::Node.new(54)
+      tree.root.right.left.right = Tree::Node.new(82)
+      tree.root.right.left.right.left = Tree::Node.new(76)
+      tree.root.right.left.right.left.right = Tree::Node.new(80)
+      tree.root.right.left.right.left.right.left = Tree::Node.new(78)
+      tree.root.right.right = Tree::Node.new(97)
+
+      tree.remove(65)
+
+      expect(tree.root.data).to eql(44)
+      expect(tree.root.left.data).to eql(17)
+      expect(tree.root.left.right.data).to eql(28)
+      expect(tree.root.left.right.right.data).to eql(29)
+      expect(tree.root.right.data).to eql(88)
+      expect(tree.root.right.left.data).to eql(76)
+      expect(tree.root.right.left.left.data).to eql(54)
+      expect(tree.root.right.left.right.data).to eql(82)
+      expect(tree.root.right.left.right.left.data).to eql(80)
+      expect(tree.root.right.left.right.left.left.data).to eql(78)
+      expect(tree.root.right.right.data).to eql(97)
+    end
+  end
 end

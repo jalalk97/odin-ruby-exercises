@@ -25,6 +25,10 @@ class Tree
     root.insert(value)
   end
 
+  def remove(value)
+    root.remove(value)
+  end
+
   # This class represents a node in a binary search tree. Each node has most two possibly nil children of type Node
   # represented by the instance variables left and right.
   class Node
@@ -41,6 +45,10 @@ class Tree
       data <=> other.data
     end
 
+    def deconstruct_keys(*)
+      { data: data, left: left, right: right }
+    end
+
     def insert(value)
       if value < data
         left&.insert(value) || self.left = Node.new(value)
@@ -48,6 +56,53 @@ class Tree
         right&.insert(value) || self.right = Node.new(value)
       end
       self
+    end
+
+    def remove(value)
+      case self
+      in { left: { data: ^value, left: nil, right: nil } }
+        self.left = nil
+
+      in { right: { data: ^value, left: nil, right: nil } }
+        self.right = nil
+
+      in { left: { data: ^value, left: node, right: nil } }
+        self.left = node
+
+      in { left: { data: ^value, left: nil, right: node } }
+        self.left = node
+
+      in { right: { data: ^value, left: node, right: nil } }
+        self.right = node
+
+      in { right: { data: ^value, left: nil, right: node } }
+        self.right = node
+
+      in { data: ^value, left:, right: }
+        replacing_node = inorder_successor
+        remove(replacing_node.data)
+        self.data = replacing_node.data
+
+      in { data:, left:, right: }
+        if value < data
+          left&.remove(value)
+        elsif value > data
+          right&.remove(value)
+        end
+      end
+      self
+    end
+
+    private
+
+    def inorder_successor
+      if right.nil?
+        # TODO
+      else
+        curr_node = right
+        curr_node = curr_node.left until curr_node.left.nil?
+        curr_node
+      end
     end
   end
 end
