@@ -33,6 +33,22 @@ class Tree
     root.find(value)
   end
 
+  def level_order
+    root.level_order
+  end
+
+  def inorder
+    root.inorder
+  end
+
+  def preorder
+    root.preorder
+  end
+
+  def postorder
+    root.postorder
+  end
+
   # This class represents a node in a binary search tree. Each node has most two possibly nil children of type Node
   # represented by the instance variables left and right.
   class Node
@@ -105,6 +121,49 @@ class Tree
       else
         self
       end
+    end
+
+    def level_order
+      values = []
+      queue = [self]
+      until queue.empty?
+        node = queue.shift
+        block_given? ? (yield node) : values.push(node.data)
+        queue.push(node.left) unless node.left.nil?
+        queue.push(node.right) unless node.right.nil?
+      end
+      values
+    end
+
+    def inorder(values = [])
+      left&.inorder(values)
+
+      values.push(data)
+      yield self if block_given?
+
+      right&.inorder(values)
+
+      values
+    end
+
+    def preorder(values = [])
+      values.push(data)
+      yield self if block_given?
+
+      left&.preorder(values)
+      right&.preorder(values)
+
+      values
+    end
+
+    def postorder(values = [])
+      left&.postorder(values)
+      right&.postorder(values)
+
+      values.push(data)
+      yield self if block_given?
+
+      values
     end
 
     private

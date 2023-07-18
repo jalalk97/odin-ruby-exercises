@@ -237,4 +237,36 @@ RSpec.describe Tree do
       expect(tree.find(10)).to be_nil
     end
   end
+
+  describe "#level_order" do
+    let(:tree) { Tree.new((1..9).to_a) }
+
+    it "with no block provided" do
+      expect(tree.level_order).to eql([5, 2, 7, 1, 3, 6, 8, 4, 9])
+    end
+  end
+
+  describe "#inorder" do
+    let(:tree) { Tree.new((1..9).to_a) }
+
+    it "with no block provided" do
+      expect(tree.inorder).to eql([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    end
+  end
+
+  describe "#preorder" do
+    let(:tree) { Tree.new((1..9).to_a) }
+
+    it "with no block provided" do
+      expect(tree.preorder).to eql([5, 2, 1, 3, 4, 7, 6, 8, 9])
+    end
+  end
+
+  describe "#postorder" do
+    let(:tree) { Tree.new((1..9).to_a) }
+
+    it "with no block provided" do
+      expect(tree.postorder).to eql([1, 4, 3, 2, 6, 9, 8, 7, 5])
+    end
+  end
 end
