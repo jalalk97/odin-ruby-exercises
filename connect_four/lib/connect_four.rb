@@ -16,6 +16,7 @@ module ConnectFour
   class Board
     N_ROWS = 6
     N_COLUMNS = 7
+    NUMBER_TO_WIN = 4
 
     attr_reader :board
 
@@ -34,6 +35,10 @@ module ConnectFour
       column_levels[columns_index] += 1
     end
 
+    def win?(color)
+      [win_on_row?(color), win_on_column?(color), win_on_main_diagonal?(color), win_on_secondary_diagonal?(color)].any?
+    end
+
     def to_s
       width = 2 * N_COLUMNS - 1
 
@@ -46,6 +51,8 @@ module ConnectFour
     end
 
     private
+
+    attr_accessor :column_levels
 
     def add_border(line, padding_amount = 1)
       padding = " " * padding_amount
@@ -62,6 +69,39 @@ module ConnectFour
       end.join("\n")
     end
 
-    attr_accessor :column_levels
+    def win_on_line?(line, color)
+      (line.length - NUMBER_TO_WIN + 1).times do |i|
+        return true if line[i, NUMBER_TO_WIN].all?(&color.method(:==))
+      end
+      false
+    end
+
+    def win_on_column?(color)
+      board.any? { |column| win_on_line?(column, color) }
+    end
+
+    def win_on_row?(color)
+      board.transpose.any? { |row| win_on_line?(row, color) }
+    end
+
+    def win_on_main_diagonal?(color)
+      (N_COLUMNS - NUMBER_TO_WIN + 1).times do |j|
+        (N_ROWS - NUMBER_TO_WIN + 1).times do |i|
+          line = NUMBER_TO_WIN.times.map { |k| board[j + k][i + k] }
+          return true if win_on_line?(line, color)
+        end
+      end
+      false
+    end
+
+    def win_on_secondary_diagonal?(color)
+      (N_COLUMNS - NUMBER_TO_WIN + 1).times do |j|
+        (N_ROWS - 1).downto(NUMBER_TO_WIN - 1) do |i|
+          line = NUMBER_TO_WIN.times.map { |k| board[j + k][i - k] }
+          return true if win_on_line?(line, color)
+        end
+      end
+      false
+    end
   end
 end
