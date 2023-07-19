@@ -39,6 +39,14 @@ module ConnectFour
       [win_on_row?(color), win_on_column?(color), win_on_main_diagonal?(color), win_on_secondary_diagonal?(color)].any?
     end
 
+    def board_full?
+      board.flatten.count(nil).zero?
+    end
+
+    def game_over?
+      board_full? || [Color::YELLOW, Color::RED].any? { |color| win?(color) }
+    end
+
     def to_s
       width = 2 * N_COLUMNS - 1
 

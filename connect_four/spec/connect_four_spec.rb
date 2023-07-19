@@ -4,6 +4,8 @@ require "connect_four"
 
 describe ConnectFour::Board do
   let(:board) { ConnectFour::Board.new }
+  let(:yellow) { ConnectFour::Color::YELLOW }
+  let(:red) { ConnectFour::Color::RED }
 
   describe "#place_token" do
     context "when the move is legal" do
@@ -136,6 +138,31 @@ describe ConnectFour::Board do
 
         expect(board.send(:win_on_secondary_diagonal?, color)).to be false
       end
+    end
+  end
+
+  describe "#board_full?" do
+    it "returns true if the board is full" do
+      1.upto(ConnectFour::Board::N_COLUMNS) do |column|
+        ConnectFour::Board::N_ROWS.times do |i|
+          color = if column.even?
+                    i < ConnectFour::Board::N_ROWS / 2 ? yellow : red
+                  else
+                    i < ConnectFour::Board::N_ROWS / 2 ? red : yellow
+                  end
+          board.place_token(column, color)
+        end
+      end
+
+      expect(board.board_full?).to be true
+    end
+
+    it "returns false if the board is not full" do
+      board.place_token(1, yellow)
+
+      expect([yellow, red].any? { |color| board.win?(color) }).to be false
+
+      expect(board.board_full?).to be false
     end
   end
 end
