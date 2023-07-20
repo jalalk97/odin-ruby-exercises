@@ -43,17 +43,13 @@ module ConnectFour
       board.flatten.count(nil).zero?
     end
 
-    def game_over?
-      board_full? || [Color::YELLOW, Color::RED].any? { |color| win?(color) }
-    end
-
     def to_s
       width = 2 * N_COLUMNS - 1
 
-      border = add_border("=" * (width + 2), 0)
-      title = add_border("CONNECT  FOUR".center(width))
+      border = Utils.add_border("=" * (width + 2), padding_amount: 0)
+      title = Utils.add_border("CONNECT  FOUR".center(width))
       content = pretty_string
-      labels = add_border((1..N_COLUMNS).to_a.join(" "))
+      labels = Utils.add_border((1..N_COLUMNS).to_a.join(" "))
 
       [border, title, border, content, border, labels, border].join("\n")
     end
@@ -62,18 +58,13 @@ module ConnectFour
 
     attr_accessor :column_levels
 
-    def add_border(line, padding_amount = 1)
-      padding = " " * padding_amount
-      "|#{padding}#{line}#{padding}|"
-    end
-
     def pretty_string
       blank_circle = "\u25cb"
       circle = "\u25cf"
       colors = { Color::YELLOW => circle.yellow, Color::RED => circle.red, nil => blank_circle }
 
       board.transpose.reverse.map do |line|
-        add_border(line.map { |cell| colors[cell] }.join(" "))
+        Utils.add_border(line.map { |cell| colors[cell] }.join(" "))
       end.join("\n")
     end
 
@@ -110,6 +101,113 @@ module ConnectFour
         end
       end
       false
+    end
+  end
+
+  # Represents a Connect Four human player. A Player has a name and a chosen symbol that is used to when making moves a
+  # Board
+  class Player
+    attr_reader :name, :color
+
+    def initialize(name, color)
+      @name = name
+      @color = color
+    end
+
+    def to_s
+      circle = "\u25cf"
+      colored_circle = color == Color::YELLOW ? circle.yellow : circle.red
+      "#{colored_circle} #{name}"
+    end
+  end
+
+  # Encapsulates the state of a game of Connect Four and acts as an abstraction layer over an instance of Board
+  class GameState
+    attr_reader :players, :board, :turn, :score
+
+    def initialize(players)
+      reset_board_and_players(players)
+      @score = [0, 0]
+    end
+
+    def reset_board
+      @board = Board.new
+      @turn = 0
+    end
+
+    def reset_board_and_players(players)
+      @players = players
+      reset_board
+    end
+
+    def current_player
+      players[turn % 2]
+    end
+
+    def make_move(column)
+      board.place_token(column, current_player.color)
+      @turn += 1
+    end
+
+    def game_over?
+      board.board_full? || [Color::YELLOW, Color::RED].any? { |color| board.win?(color) }
+    end
+
+    def winner
+      players.find { |player| board.win?(player.color) }
+    end
+
+    def update_score
+      index = players.find_index(&winner.method(:===))
+      score[index] += 1
+    end
+
+    def to_s
+      "#{board.to_s.split("\n").zip(score_board_content).map(&:join).join("\n")}\n\n"
+    end
+
+    private
+
+    FORMATTING_OPTIONS = {
+      margin_amount: 4,
+      line_width: 20
+    }.freeze
+
+    def score_board_content
+      [
+        border,
+        format_line("Turn: #{turn + 1}"),
+        border,
+        format_line("Score:"),
+        *2.times.map { |i| format_player_score(i) },
+        border
+      ]
+    end
+
+    def format_line(line, line_width: FORMATTING_OPTIONS[:line_width], **kwargs)
+      Utils.add_border(line.ljust(line_width), margin_amount: FORMATTING_OPTIONS[:margin_amount], **kwargs)
+    end
+
+    def border
+      format_line("=" * FORMATTING_OPTIONS[:line_width], padding_char: "=")
+    end
+
+    def format_player_score(player_number)
+      line_width = FORMATTING_OPTIONS[:line_width] + 14
+      format_line("#{players[player_number]}: #{score[player_number]}", line_width: line_width)
+    end
+  end
+
+  # Utility methods
+  module Utils
+    def self.add_border(line, padding_amount: 1, padding_char: " ", margin_amount: 0, margin_char: " ")
+      padding = padding_char * padding_amount
+      margin = margin_char * margin_amount
+      "#{margin}|#{padding}#{line}#{padding}|"
+    end
+
+    def self.clear_screen
+      system("clear") || system("cls")
     end
   end
 end
