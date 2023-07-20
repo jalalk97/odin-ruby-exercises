@@ -51,7 +51,7 @@ module ConnectFour
       content = pretty_string
       labels = Utils.add_border((1..N_COLUMNS).to_a.join(" "))
 
-      [border, title, border, content, border, labels, border].join("\n")
+      [border, title, border, content, border, labels, border, "\n"].join("\n")
     end
 
     private
@@ -195,6 +195,72 @@ module ConnectFour
     def format_player_score(player_number)
       line_width = FORMATTING_OPTIONS[:line_width] + 14
       format_line("#{players[player_number]}: #{score[player_number]}", line_width: line_width)
+    end
+  end
+
+  # Allows two players to play one or more games of Connect Four
+  class Game
+    attr_reader :players, :game_state
+
+    def initialize
+      @players = 2.times.map { |player_number| create_player(player_number + 1) }
+      @game_state = GameState.new(players)
+    end
+
+    def play
+      game_state.reset_board
+      play_turn until game_state.game_over?
+
+      game_state.update_score
+      display_winner
+
+      puts "Play again? [Y/n]"
+      answer = $stdin.gets.chomp.downcase until ["y", "n", ""].include?(answer)
+      play unless answer == "n"
+    end
+
+    private
+
+    def create_player(player_number)
+      Utils.clear_screen
+      default_name = "Player #{player_number}"
+      puts "#{default_name}, what's you name?"
+      name = $stdin.gets.chomp.capitalize
+      name = default_name if name.empty?
+
+      color = case player_number
+              when 1 then Color::YELLOW
+              when 2 then Color::RED
+              end
+
+      Player.new(name, color)
+    end
+
+    def display_game_state
+      Utils.clear_screen
+      puts game_state
+    end
+
+    def prompt_move
+      display_game_state
+      yield if block_given?
+      puts "#{game_state.current_player}, make a move (1 - #{Board::N_COLUMNS})"
+      $stdin.gets.chomp.to_i
+    end
+
+    def play_turn(&block)
+      move = prompt_move(&block)
+      begin
+        game_state.make_move(move)
+      rescue IllegalMoveError => e
+        play_turn { puts "Sorry, this move is illegal. #{e.message}.".red }
+      end
+    end
+
+    def display_winner
+      display_game_state
+      winner = game_state.winner
+      print "#{winner ? "#{winner.name} won!".green : "It's a draw!"} "
     end
   end
 
