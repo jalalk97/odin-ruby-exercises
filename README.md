@@ -18,3 +18,5 @@ This is a solutions repository for the [Ruby course](https://www.theodinproject.
   - [see problem statement](https://www.theodinproject.com/lessons/ruby-linked-lists)
 - [Project: Binary Search Trees](https://github.com/jalalk97/odin-ruby-exercises/tree/main/binary_search_trees)
   - [see problem statement](https://www.theodinproject.com/lessons/ruby-binary-search-trees)
+- [Project: Connect Four](https://github.com/jalalk97/odin-ruby-exercises/tree/main/connect_four)
+  - [see problem statement](https://www.theodinproject.com/lessons/ruby-connect-four#project-tdd-connect-four)
